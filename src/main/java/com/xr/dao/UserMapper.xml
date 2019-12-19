@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--接口代理-->
+<mapper namespace="com.xr.dao.UserMapper">
+
+    <!--添加操作-->
+     <!--<insert id="addUser" parameterType="User" useGeneratedKeys="true" keyProperty="userID">-->
+        <!--insert into T_USER(user_name, `password`)-->
+        <!--values(#{userName}, #{password})-->
+    <!--</insert>-->
+
+    <!--删除操作-->
+    <delete id="delUser" parameterType="int">
+      delete from T_USER where user_id=#{userID}
+    </delete>
+
+    <!--查询一个用户-->
+    <select id="getUser" parameterType="Integer" resultType="User">
+        select * from t_user where user_id = #{userID}
+    </select>
+
+    <!--查询多个-->
+    <select id="getUsers" resultType="user">
+        select * from t_user
+    </select>
+
+    <!--查询个数-->
+    <select id="count" resultType="Integer">
+        select count(*) from t_user
+    </select>
+
+    <select id="getduos"  resultType="Duo" >
+         SELECT * from t_class c   INNER JOIN t_student t ON  c.CLASS_ID=t.CLASS_ID
+    </select>
+
+    <select id="tiaoduo"   parameterType="Integer" resultType="Duo" >
+         SELECT * from t_class c   INNER JOIN t_student t ON  c.CLASS_ID=t.CLASS_ID
+         where t.CLASS_ID=#{classId}
+    </select>
+
+
+    <select id="mohu"   parameterType="string" resultType="Duo" >
+         SELECT * from t_class c   INNER JOIN t_student t ON  c.CLASS_ID=t.CLASS_ID
+         where t.CLASS_ID like   #{classId}
+    </select>
+
+    <update id="updateUser"  parameterType="user" >
+        update t_user set user_name = #{userName}, password = #{password}  where user_id=#{userID}
+    </update>
+
+    <select id="selectUserById" resultType="user">
+    SELECT * FROM t_user WHERE 1=1
+    <if test="userID != null">
+    AND USER_ID = #{userID}
+</if>
+        </select>
+
+
+    <update id="xiu" >
+    UPDATE t_user
+
+    <set>
+        <if test="userName != null">
+            user_name = #{userName}
+        </if>
+
+        <if test="password != null">
+            password = #{password},
+        </if>
+
+    </set>
+    WHERE
+        user_id=#{userID}
+</update>
+
+</mapper>
